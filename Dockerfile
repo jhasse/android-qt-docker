@@ -1,4 +1,4 @@
-FROM jhasse/android-ndk:r19b AS build
+FROM jhasse/android-ndk:r19c AS build
 WORKDIR /tmp
 RUN git clone https://code.qt.io/qt/qt5.git
 WORKDIR /tmp/qt5
@@ -10,5 +10,5 @@ RUN ./configure -xplatform android-clang --disable-rpath -nomake tests -nomake e
 RUN make -j$(nproc)
 RUN make install
 
-FROM jhasse/android-ndk:r19b
+FROM jhasse/android-ndk:r19c
 COPY --from=build /usr/local/Qt-5.12.3 /opt/Qt
