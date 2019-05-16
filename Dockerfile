@@ -7,8 +7,9 @@ RUN git checkout v5.12.3
 RUN git submodule update --recursive
 RUN dnf install -y gcc-c++ python2 which
 RUN ./configure -xplatform android-clang --disable-rpath -nomake tests -nomake examples -android-ndk $ANDROID_HOME/ndk-bundle -android-sdk $ANDROID_HOME -android-ndk-host linux-x86_64 -skip qttranslations -skip qtserialport -no-warnings-are-errors -opensource -confirm-license
-RUN make -j$(nproc)
+RUN make -j$(nproc) > /dev/null
 RUN make install
 
 FROM jhasse/android-ndk:r19c
-COPY --from=build /usr/local/Qt-5.12.3 /opt/Qt
+COPY --from=build /usr/local/Qt-5.12.3 /opt/qt
+RUN dnf install -y cmake && dnf clean all
